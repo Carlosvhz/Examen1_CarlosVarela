@@ -11,7 +11,7 @@ pieza*** crearMatriz();
 void printMatriz(pieza***);
 bool validarPos(string,pieza***);
 int terminarJuego(pieza***);
-int* posiciones(string);
+int posiciones(char);
 
 int main(){
   do{
@@ -29,7 +29,7 @@ int main(){
             cout<<"== Turno jugador "<<player1<<" =="<<endl;
             cout<<"-Ingrese posicion inicial: ";
             cin>>inicial;
-            while(validarPos(inicial,tablero)){
+            while(inicial.length()>2||validarPos(inicial,tablero)){
               cout<<"Ingrese de nuevo: ";
               cin>>inicial;
             }
@@ -40,7 +40,7 @@ int main(){
             cout<<"== Turno jugador "<<player2<<" =="<<endl;
             cout<<"-Ingrese posicion inicial: ";
             cin>>inicial;
-            while(validarPos(inicial,tablero)){
+            while(inicial.length()>2||validarPos(inicial,tablero)){
               cout<<"Ingrese de nuevo: ";
               cin>>inicial;
             }
@@ -80,56 +80,50 @@ int terminarJuego(pieza*** matriz){
     }
 }
 
-int* posiciones(string posicion){
-    int* posiciones = new int[2];
+int posiciones(char posicion){
     int num;
-    switch(posicion[0]){
+    switch(posicion){
       case 'a':{
-        posiciones[0] = 0;
+        return 0;
       }
         break;
       case 'b':{
-        posiciones[0] = 1;
+        return 1;
       }
         break;
       case 'c':{
-        posiciones[0] = 2;
+        return 2;
       }
         break;
       case 'd':{
-        posiciones[0] = 3;
+        return 3;
       }
         break;
       case 'e':{
-        posiciones[0] = 4;
+        return 4;
       }
         break;
       case 'f':{
-        posiciones[0] = 5;
+        return 5;
       }
         break;
       case 'g':{
-        posiciones[0] = 6;
+        return 6;
       }
         break;
       case 'h':{
-        posiciones[0] = 7;
+        return 7;
       }
         break;
       default:{
-        posiciones[0] = -1;
+        return posicion-48;
       }
     }
-    num = stoi(posicion[1]);
-    posiciones[1] = num;
-    return posiciones;
 }
 
 bool validarPos(string pos,pieza***matriz){
-    int* posiciones =  posiciones(pos);
-    int x = posiciones[0];
-    int y = posiciones[1];
-    delete posiciones;
+    int x = posiciones(pos[0]);
+    int y = posiciones(pos[1]);
     if(x<0||x>8||y<0||y>8){
         return false;
     }else{
