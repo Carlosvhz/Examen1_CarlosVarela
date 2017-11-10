@@ -1,5 +1,4 @@
-#ifndef PIEZA_H
-#define PIEZA_H
+#pragma once
 
 class pieza{
 
@@ -9,8 +8,9 @@ class pieza{
     int color;  //Color = 1 (Negro) Color = 0 (Blanco)
 
   public:
-    pieza(int,int);
-    //**Get**//
+    pieza(int,int,int);
+    virtual ~pieza();
+	//**Get**//
     int getPosx();
     int getPosy();
     int getColor();
@@ -20,5 +20,3 @@ class pieza{
 
     virtual bool validarMov(int,int,pieza***);
 };
-
-#endif

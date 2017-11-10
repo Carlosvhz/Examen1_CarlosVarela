@@ -1,9 +1,8 @@
 #pragma once
-
 #include "pieza.h"
-class marine: public pieza{
+class general : public pieza{
   public:
-    marine(int,int,int);
-    ~marine();
+    general(int,int,int);
+    ~general();
     bool validarMov(int,int,pieza***);
 };
