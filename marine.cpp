@@ -46,16 +46,18 @@ void marine::hacerMov(pieza* ficha,int x,int y ,pieza*** matriz, bool turno){
         for(int j=ficha->getPosx(); j<x; j++){
             if(dynamic_cast<pieza*>(matriz[y][x])){
                 fichaEliminar = matriz[y][x];
-                fichaEliminar
+                fichaEliminar->setPosx(-1);
+                fichaEliminar->setPosy(-1);
             }
         }
       }
     }else{  //Si es false es el jugador 2
-      for(int i=ficha->getPosy(); i<y;i++){
-        for(int j=ficha->getPosx(); j<x; j++){
+      for(int i=ficha->getPosy(); i>y;i--){
+        for(int j=ficha->getPosx(); j>x; j--){
             if(dynamic_cast<pieza*>(matriz[y][x])){
                 fichaEliminar = matriz[y][x];
-                fichaEliminar
+                fichaEliminar->setPosx(-1);
+                fichaEliminar->setPosy(-1);
             }
         }
       }

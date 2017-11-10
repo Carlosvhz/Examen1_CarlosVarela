@@ -9,14 +9,16 @@ using namespace std;
 //==== Prototipo ====//
 pieza*** crearMatriz();
 void printMatriz(pieza***);
-bool validarPos(string,pieza***);
+bool validarPos(string,pieza***,bool);
 int terminarJuego(pieza***);
 int posiciones(char);
+pieza* tomarficha(string,pieza***);
 
 int main(){
   do{
       string player1, player2, inicial, terminal;
       bool turn=true;
+      pieza* ficha;
       pieza*** tablero = crearMatriz();
       cout<<" === Examen_1 ==="<<endl;
       cout<<"Ingrese nombre: ";
@@ -29,26 +31,30 @@ int main(){
             cout<<"== Turno jugador "<<player1<<" =="<<endl;
             cout<<"-Ingrese posicion inicial: ";
             cin>>inicial;
-            while(inicial.length()>2||validarPos(inicial,tablero)){
+            while(inicial.length()!=2||validarPos(inicial,tablero,turn)){
               cout<<"Ingrese de nuevo: ";
               cin>>inicial;
             }
+            ficha = tomarficha(inicial,tablero);
             cout<<"-Ingrese posicion final: ";
             cin>>terminal;
-            //ficha = getficha();
+
+            //-----
+            turn =false;
           }else{ //Jugador#2
             cout<<"== Turno jugador "<<player2<<" =="<<endl;
             cout<<"-Ingrese posicion inicial: ";
             cin>>inicial;
-            while(inicial.length()>2||validarPos(inicial,tablero)){
+            while(inicial.length()!=2||validarPos(inicial,tablero,turn)){
               cout<<"Ingrese de nuevo: ";
               cin>>inicial;
             }
             cout<<"-Ingrese posicion final:";
             cin>>terminal;
-
+            //--------
+            turn=true;
           }
-      }while(terminarJuego(tablero));
+      }while(terminarJuego(tablero)==2);
       cout<<"==========================="<<
         endl<<"¿Volver a intentarlo?[s]: ";
 
@@ -121,25 +127,51 @@ int posiciones(char posicion){
     }
 }
 
-bool validarPos(string pos,pieza***matriz){
+bool validarPos(string pos,pieza***matriz, bool turno){
+    pieza* ficha;
     int x = posiciones(pos[0]);
-    int y = posiciones(pos[1]);
+    int y = (posiciones(pos[1])-8)*-1 ;
     if(x<0||x>8||y<0||y>8){
-        return false;
-    }else{
-      if(matriz[y][x]==NULL){
-        return false;
-      }else{
         return true;
+    }
+    if(matriz[y][x]==NULL){
+      return true;
+    }
+    if(turno){ //Jugador 1
+      if(dynamic_cast<pieza*>(matriz[y][x])){ //Por si hay una ficha
+        ficha = matriz[y][x];
+        if(ficha->getColor()==0){ //Si es una ficha blanca
+          cout<<"FichaBlanca";
+          return false;
+        }else{
+          return true;
+        }
+      }
+    }else{ //Jugador 2
+      if(dynamic_cast<pieza*>(matriz[y][x])){
+        ficha = matriz[y][x];
+        if(ficha->getColor()==1){ //Si es una ficha negra
+          return false;
+        }else{
+          return true;
+        }
       }
     }
+}
+
+pieza* tomarficha(string posicion,  pieza***matriz){
+    pieza* f;
+    int x = posiciones(posicion[0]);
+    int y = posiciones(posicion[1]);
+    f = matriz[y][x];
+    return f;
 }
 
 //====Matriz=====
 void printMatriz(pieza***matriz){
     pieza* p;
     cout<<"=============================="<<endl;
-    for(int i=0; i<8; i++){
+    /*for(int i=0; i<8; i++){
       for(int j=0; j<8; j++){
         p = matriz[i][j];
         if(p->getColor()==0){
@@ -149,8 +181,9 @@ void printMatriz(pieza***matriz){
         }
       }
       cout<<endl;
-    }
+    }*/
     cout<<"==============================="<<endl;
+    delete p;
 }
 
 pieza*** crearMatriz(){
