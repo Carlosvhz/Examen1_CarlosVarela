@@ -18,5 +18,5 @@ class pieza{
     void setPosx(int);
     void setPosy(int);
 
-    virtual bool validarMov(int,int,pieza***);
+    bool validarMov(int,int,pieza***,bool);
 };

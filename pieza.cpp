@@ -27,6 +27,40 @@ void pieza::setPosy(int y){
     posy = y;
 }
 
-bool pieza::validarMov(int,int,pieza***) {
-  return false;
+bool pieza::validarMov(int x,int y,pieza***matriz,bool turno) {
+  if(turno){ //Si es jugador 1
+    if(x<0||x>8||y<0||y>8){
+      return true;
+    }else if(y>getPosy()){
+      return true;
+    }else{
+      if(getPosx()==x||getPosy()==y){
+        return true;
+      }else if(dynamic_cast<pieza*>(matriz[y][x])){
+        return true;
+      }else{
+      /*  setPosx(x);
+        setPosy(y);
+        matriz[y][x]=this;*/
+        return false;
+      }
+    }
+  }else{ //Si es jugador 2
+    if(x<0||x>8||y<0||y>8){
+      return true;
+    }else if(y<getPosy()){
+      return true;
+    }else{
+      if(getPosx()==x||getPosy()==y){
+        return true;
+      }else if(dynamic_cast<pieza*>(matriz[y][x])){
+        return true;
+      }else{
+        /*setPosx(x);
+        setPosy(y);
+        matriz[y][x]=this;*/
+        return false;
+      }
+    }
+  }
 }

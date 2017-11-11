@@ -10,30 +10,30 @@ marine::~marine(){
 bool marine::validarMov(int x, int y, pieza***matriz, bool turno){
     if(turno){ //Si es jugador 1
       if(x<0||x>8||y<0||y>8){
-        return false;
+        return true;
       }else if(y>getPosy()){
-        return false;
+        return true;
       }else{
         if(getPosx()==x||getPosy()==y||(getPosx()==x&&getPosy()==y)){
-          return false;
-        }else if(dynamic_cast<pieza*>(matriz[y][x])){
-          return false;
-        }else{
           return true;
+        }else if(dynamic_cast<pieza*>(matriz[y][x])){
+          return true;
+        }else{
+          return false;
         }
       }
     }else{ //Si es jugador 2
       if(x<0||x>8||y<0||y>8){
-        return false;
+        return true;
       }else if(y<getPosy()){
-        return false;
+        return true;
       }else{
         if(getPosx()==x||getPosy()==y||(getPosx()==x&&getPosy()==y)){
-          return false;
-        }else if(dynamic_cast<pieza*>(matriz[y][x])){
-          return false;
-        }else{
           return true;
+        }else if(dynamic_cast<pieza*>(matriz[y][x])){
+          return true;
+        }else{
+          return false;
         }
       }
     }

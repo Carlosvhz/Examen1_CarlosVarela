@@ -16,7 +16,9 @@ pieza* tomarficha(string,pieza***);
 
 int main(){
   do{
-      string player1, player2, inicial, terminal;
+      string player1, player2, inicial;
+      string posterminal;
+      int x,y;
       bool turn=true;
       pieza* ficha;
       pieza*** tablero = crearMatriz();
@@ -27,7 +29,8 @@ int main(){
       cin>>player2;
       //****Inicio de la simulación*****//
       do{
-          if(turn){ //Jugador#1
+        printMatriz(tablero);
+          if(turn==true){ //Jugador#1
             cout<<"== Turno jugador "<<player1<<" =="<<endl;
             cout<<"-Ingrese posicion inicial: ";
             cin>>inicial;
@@ -36,12 +39,18 @@ int main(){
               cin>>inicial;
             }
             ficha = tomarficha(inicial,tablero);
+            //tablero[ficha->getPosy()][ficha->getPosx()] = NULL;
             cout<<"-Ingrese posicion final: ";
-            cin>>terminal;
-
+            cin>>posterminal;
+            x = posiciones(posterminal[0]);
+            y = posiciones(posterminal[1]);
+            while(ficha->validarMov(x,y,tablero,turn)){
+              cout<<"Ingrese de nuevo: ";
+              cin>>posterminal;
+            }
             //-----
             turn =false;
-          }else{ //Jugador#2
+          }else if(turn==false){ //Jugador#2
             cout<<"== Turno jugador "<<player2<<" =="<<endl;
             cout<<"-Ingrese posicion inicial: ";
             cin>>inicial;
@@ -49,12 +58,21 @@ int main(){
               cout<<"Ingrese de nuevo: ";
               cin>>inicial;
             }
+            ficha = tomarficha(inicial,tablero);
+            //tablero[ficha->getPosy()][ficha->getPosx()] = NULL;
             cout<<"-Ingrese posicion final:";
-            cin>>terminal;
+            cin>>posterminal;
+            x = posiciones(posterminal[0]);
+            y = posiciones(posterminal[1]);
+            while(ficha->validarMov(x,y,tablero,turn)){
+              cout<<"Ingrese de nuevo: ";
+              cin>>posterminal;
+            }
+
             //--------
             turn=true;
           }
-      }while(terminarJuego(tablero)==2);
+      }while(/*terminarJuego(tablero)==2*/true);
       cout<<"==========================="<<
         endl<<"¿Volver a intentarlo?[s]: ";
 
@@ -67,13 +85,16 @@ int terminarJuego(pieza*** matriz){
     pieza *ficha;
     for(int i=0; i<8; i++){
       for(int j=0; j<8; j++){
-        ficha = matriz[i][j];
-        if(ficha->getColor()==0){
-          contB++;
+        if(matriz[i][j]!=NULL){
+          ficha = matriz[i][j];
+          if(ficha->getColor()==0){
+            contB++;
+          }
+          if(ficha->getColor()==1){
+            contN++;
+          }
         }
-        if(ficha->getColor()==1){
-          contN++;
-        }
+
       }
     }
     delete ficha;
@@ -87,7 +108,6 @@ int terminarJuego(pieza*** matriz){
 }
 
 int posiciones(char posicion){
-    int num;
     switch(posicion){
       case 'a':{
         return 0;
@@ -141,7 +161,6 @@ bool validarPos(string pos,pieza***matriz, bool turno){
       if(dynamic_cast<pieza*>(matriz[y][x])){ //Por si hay una ficha
         ficha = matriz[y][x];
         if(ficha->getColor()==0){ //Si es una ficha blanca
-          cout<<"FichaBlanca";
           return false;
         }else{
           return true;
@@ -170,20 +189,23 @@ pieza* tomarficha(string posicion,  pieza***matriz){
 //====Matriz=====
 void printMatriz(pieza***matriz){
     pieza* p;
-    cout<<"=============================="<<endl;
-    /*for(int i=0; i<8; i++){
+    cout<<"==========================="<<endl;
+    for(int i=0; i<8; i++){
       for(int j=0; j<8; j++){
-        p = matriz[i][j];
-        if(p->getColor()==0){
-          cout<<"|"<<'o'<<"|";
+        if(matriz[i][j]==NULL){
+          cout<<"| |";
         }else{
-          cout<<"|"<<'*'<<"|";
+          p = matriz[i][j];
+          if(p->getColor()==0){
+            cout<<"|"<<'o'<<"|";
+          }else{
+            cout<<"|"<<'*'<<"|";
+          }
         }
       }
       cout<<endl;
-    }*/
-    cout<<"==============================="<<endl;
-    delete p;
+    }
+    cout<<"============================"<<endl;
 }
 
 pieza*** crearMatriz(){
@@ -204,10 +226,10 @@ pieza*** crearMatriz(){
     matriz[1][2] = new marine(2,1,1);
     matriz[1][4] = new marine(4,1,1);
     matriz[1][6] = new marine(6,1,1);
-    matriz[3][1] = new marine(1,3,1);
-    matriz[3][3] = new marine(3,3,1);
-    matriz[3][5] = new marine(5,3,1);
-    matriz[3][7] = new marine(7,3,1);
+    matriz[2][1] = new marine(1,2,1);
+    matriz[2][3] = new marine(3,2,1);
+    matriz[2][5] = new marine(5,2,1);
+    matriz[2][7] = new marine(7,2,1);
     matriz[5][0] = new marine(0,5,0);
     matriz[5][2] = new marine(2,5,0);
     matriz[5][4] = new marine(4,5,0);
