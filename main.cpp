@@ -44,10 +44,10 @@ int main(){
             cin>>posterminal;
             x = posiciones(posterminal[0]);
             y = posiciones(posterminal[1]);
-            while(ficha->validarMov(x,y,tablero,turn)){
+            /*while(ficha->validarMov(x,y,tablero,turn)){
               cout<<"Ingrese de nuevo: ";
               cin>>posterminal;
-            }
+            }*/
             //-----
             turn =false;
           }else if(turn==false){ //Jugador#2
@@ -64,15 +64,15 @@ int main(){
             cin>>posterminal;
             x = posiciones(posterminal[0]);
             y = posiciones(posterminal[1]);
-            while(ficha->validarMov(x,y,tablero,turn)){
+            /*while(ficha->validarMov(x,y,tablero,turn)){
               cout<<"Ingrese de nuevo: ";
               cin>>posterminal;
-            }
+            }*/
 
             //--------
             turn=true;
           }
-      }while(/*terminarJuego(tablero)==2*/true);
+      }while(true);
       cout<<"==========================="<<
         endl<<"¿Volver a intentarlo?[s]: ";
 
@@ -97,7 +97,6 @@ int terminarJuego(pieza*** matriz){
 
       }
     }
-    delete ficha;
     if(contN==0){
       return 0; //Return 0, significa que el segundo player ha ganado
     }else if(contB==0){

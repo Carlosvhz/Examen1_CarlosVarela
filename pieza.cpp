@@ -28,6 +28,7 @@ void pieza::setPosy(int y){
 }
 
 bool pieza::validarMov(int x,int y,pieza***matriz,bool turno) {
+  y=(y-8)*-1;
   if(turno){ //Si es jugador 1
     if(x<0||x>8||y<0||y>8){
       return true;
